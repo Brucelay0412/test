@@ -95,4 +95,32 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 current = "";         // 清空當前輸入
                 previous = "";        // 清空前一個數字
-                op = "
+                op = "";              // 清空運算符
+                tv.setText("0");      // 顯示回預設的 "0"
+            }
+        });
+
+    } // end onCreate
+
+    // opListener 是一個工廠方法（傳入運算符後回傳一個 OnClickListener）
+    // 這樣可以避免為每個運算符重複寫相同的 listener 程式碼
+    View.OnClickListener opListener(String oper){
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 如果 current 不為空，代表使用者剛剛輸入了一個數字
+                if(!current.equals("")){
+                    previous = current; // 把現在輸入的數字存到 previous
+                    current = "";       // 清掉 current，準備輸入下一個數字
+                }
+                // 記錄目前選的運算符號
+                op = oper;
+
+                // 顯示：把 previous 與 operator 顯示在 TextView 上（例如 "12 +"）
+                // 若 previous 是空字串（例如直接按 +），會只顯示 " " + op → 顯示不友善，建議先輸入數字或改進
+                tv.setText(previous + " " + op);
+            }
+        };
+    }
+
+} // end class
